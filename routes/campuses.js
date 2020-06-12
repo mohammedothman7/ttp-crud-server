@@ -1,10 +1,10 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
-const { Campus, Student } = require("../database/models");
+const { Campus, Student } = require('../database/models');
 
 /* GET all campuses. */
 // /api/campuses
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   // try to get campuses object from database
   try {
     // campuses will be the result of the Campus.findAll promise
@@ -21,13 +21,13 @@ router.get("/", async (req, res, next) => {
 // Route to serve single campus based on its id
 // /api/campuses/:id
 // /api/campuses/456 would respond with a campus with id 456
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   // take the id from params
   const { id } = req.params;
   // query the database for a campus with matching id
   try {
     // if successful:
-    const campus = await Campus.findByPk(id);
+    const campus = await Campus.findByPk(id, { include: Student });
     // send back the campus as a response
     res.status(200).json(campus);
   } catch (err) {
@@ -40,7 +40,7 @@ router.get("/:id", async (req, res, next) => {
 // Route to get students associated with a campus
 // /api/campuses/:id/students
 // /api/campuses/456/students
-router.get("/:id/students", async (req, res, next) => {
+router.get('/:id/students', async (req, res, next) => {
   const { id } = req.params;
   // find the campus associated with the id
   let foundCampus;
@@ -63,7 +63,7 @@ router.get("/:id/students", async (req, res, next) => {
 
 // Route to handle adding a campus
 // /api/campuses/
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   // Take the form data from the request body
   const { name, address, description, imageUrl } = req.body;
   // Create a campus object
@@ -87,7 +87,7 @@ router.post("/", async (req, res, next) => {
 // Route to handle editing a campus
 // /api/campuses/:id
 // /api/campuses/456 would modify a campus with id 456
-router.put("/:id", async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   // get the id from request params
   const { id } = req.params;
   // get form data from the request body
@@ -120,7 +120,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 // Route to handle removing a campus
-router.delete("/:id", async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
   // get an id for a campus to delete
   try {

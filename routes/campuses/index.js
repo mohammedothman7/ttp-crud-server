@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 // Subrouters;
-const campusesRouter = require('./campuses/campuses');
-const studentsRouter = require('./students/students');
+const campusesRouter = require('./campuses');
+const studentsRouter = require('./students');
 
 // Mount our subrouters to assemble our apiRouter;
 

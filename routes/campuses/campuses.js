@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { Campus, Student } = require('../database/models');
+const { Campus, Student } = require('../../database/models');
 
 /* GET all campuses. */
 // /api/campuses

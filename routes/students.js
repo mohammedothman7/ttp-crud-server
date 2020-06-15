@@ -79,8 +79,26 @@ router.delete('/:id', async (req, res, next) => {
 // Route to edit a student
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const { firstName, lastName, email, gpa, imageUrl } = req.body;
-  const updatedObj = { firstName, lastName, email, gpa, imageUrl };
+  const { firstName, lastName, email, gpa, imageUrl, campusId } = req.body;
+  const updatedObj = { firstName, lastName, email, gpa, imageUrl, campusId };
+  console.log(updatedObj);
+
+  try {
+    const student = await Student.findByPk(id);
+    await student.set(updatedObj);
+    const updatedStudent = await student.save();
+    res.status(201).send(updatedStudent);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/enrollStudent/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const campusId = req.body.id;
+  const updatedObj = { campusId };
+  console.log(updatedObj);
+
   try {
     const student = await Student.findByPk(id);
     await student.set(updatedObj);
